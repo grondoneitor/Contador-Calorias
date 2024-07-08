@@ -1,20 +1,24 @@
 import { categories } from "../data/categories"
 import { useState } from "react"
+import { ChangeEvent } from "react"
+import { Activity } from "../types"
 
 
 export default function Form() {
-    const[activity, setActivity] = useState({
+    const[activity, setActivity] = useState<Activity>({
       category: 1,
       name: "",
       calories:0
     })
 
 
-const handleChange = (e)=>{
+const handleChange = (e:ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>)=>{
+   const isNumber = ['category', 'calories'].includes(e.target.id)
 
+   console.log(isNumber)
     setActivity({
-      ...activity,
-        [e.target.id]: e.target.value
+        ...activity,
+        [e.target.id]: isNumber ? +e.target.value : e.target.value
     })
 
 }
@@ -32,7 +36,9 @@ const handleChange = (e)=>{
         
         {categories.map((cat)=> (
 
-           <option key={cat.id} >{cat.name}</option>
+           <option key={cat.id} value={cat.id} >
+             {cat.name}
+           </option>
         ))}
         </select>
     </div>
