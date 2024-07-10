@@ -1,10 +1,13 @@
 import { categories } from "../data/categories"
-import { useState } from "react"
-import { ChangeEvent } from "react"
+import { useState, ChangeEvent,FormEvent, Dispatch } from "react"
 import { Activity } from "../types"
+import { ActivityActions } from "../reducers/activityReducer"
 
+type FormProps = {
+  dispatch: Dispatch<ActivityActions>
+}
 
-export default function Form() {
+export default function Form({dispatch} :FormProps) {
     const[activity, setActivity] = useState<Activity>({
       category: 1,
       name: "",
@@ -15,16 +18,41 @@ export default function Form() {
 const handleChange = (e:ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>)=>{
    const isNumber = ['category', 'calories'].includes(e.target.id)
 
-   console.log(isNumber)
     setActivity({
         ...activity,
         [e.target.id]: isNumber ? +e.target.value : e.target.value
     })
 
 }
+const ejercicioCalorias = ()=> {
+  const{category} = activity
+   
+  if(category === 2){
+    return "Guardar ejercicio"
+  }else{
+    return "Guardar comida"
+  }
+}
+const IsAvility = ()=> {
+
+  const {name,calories} = activity
+
+  return name.trim() !== '' && calories > 0
+
+
+}
+const handleSubmit = (e :FormEvent<HTMLFormElement>)=>{
+  e.preventDefault()
+  console.log("submit..")
+
+  dispatch({type: 'save-activity', payload: {newActivity: activity}})
+}
 
   return (
-    <form className="space-y-5 p-10 bg-white shadow rounded-lg">
+    <form
+     className="space-y-5 p-10 bg-white shadow rounded-lg"
+     onSubmit={handleSubmit}
+     >
     <div className="grid grid-cols-1 gap-3">
         <label htmlFor="category" className="font-bold">Categoria:</label>
         <select
@@ -72,8 +100,9 @@ const handleChange = (e:ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputEl
 
       <input
        type="submit"
-       className="bg-gray-800 hover:bg-gray-900 w-full rounded-lg text-xl text-white font-bold p-3 uppercase cursor-pointer"
-       value="Guardar comida o ejercicio"
+       className="bg-gray-800 hover:bg-gray-900 w-full rounded-lg text-xl text-white font-bold p-3 uppercase cursor-pointer disabled:opacity-10"
+       value={ejercicioCalorias()}
+       disabled={!IsAvility()}
        />
     </form>
   )
