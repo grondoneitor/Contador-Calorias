@@ -1,4 +1,5 @@
 import { categories } from "../data/categories"
+import {v4 as uuidV4} from 'uuid'
 import { useState, ChangeEvent,FormEvent, Dispatch } from "react"
 import { Activity } from "../types"
 import { ActivityActions } from "../reducers/activityReducer"
@@ -7,12 +8,15 @@ type FormProps = {
   dispatch: Dispatch<ActivityActions>
 }
 
+const initialState : Activity = {
+  id: uuidV4(),
+  category: 1,
+  name: "",
+  calories:0
+}
+
 export default function Form({dispatch} :FormProps) {
-    const[activity, setActivity] = useState<Activity>({
-      category: 1,
-      name: "",
-      calories:0
-    })
+    const[activity, setActivity] = useState<Activity>(initialState)
 
 
 const handleChange = (e:ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>)=>{
@@ -46,7 +50,12 @@ const handleSubmit = (e :FormEvent<HTMLFormElement>)=>{
   console.log("submit..")
 
   dispatch({type: 'save-activity', payload: {newActivity: activity}})
+  setActivity({
+    ...initialState,
+    id: uuidV4()
+  })
 }
+
 
   return (
     <form
@@ -103,6 +112,7 @@ const handleSubmit = (e :FormEvent<HTMLFormElement>)=>{
        className="bg-gray-800 hover:bg-gray-900 w-full rounded-lg text-xl text-white font-bold p-3 uppercase cursor-pointer disabled:opacity-10"
        value={ejercicioCalorias()}
        disabled={!IsAvility()}
+       
        />
     </form>
   )
