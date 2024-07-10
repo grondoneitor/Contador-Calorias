@@ -1,7 +1,7 @@
 import React, { useMemo,Dispatch } from 'react'
 import { Activity } from '../types'
 import { categories } from '../data/categories'
-import { FaPencilAlt } from 'react-icons/fa';
+import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { ActivityActions } from "../reducers/activityReducer"
 
 type ActivityProps ={
@@ -59,6 +59,14 @@ export default function ActivityList({activities,dispatch}:ActivityProps) {
                          className='h-8 w-8 text-gray-800'
                        />
 
+                       </button>
+
+                       <button  
+                        onClick={()=>dispatch({type:'set-delete',payload:{id: category.id}}) }
+                        >
+                        <FaTrashAlt
+                        className='h-8 w-8 text-gray-800'
+                        />
                        </button>
                 </div>
             
