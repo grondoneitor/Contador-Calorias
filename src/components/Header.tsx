@@ -21,7 +21,7 @@ export default function Header({state,dispatch}: HeaderProps) {
        <h1 className="text-center text-lg font-bold text-white uppercase">Contador de calorias</h1>
        
        <button 
-       className="bg-orange-500 text-white font-bold px-8 py-4  rounded-xl disabled:opacity-10" 
+       className="bg-slate-800 text-lg text-white font-bold px-8 py-4  rounded-xl disabled:opacity-10" 
        disabled={!CanReload()}
        onClick={ReiniciarApp}
        

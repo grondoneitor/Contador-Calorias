@@ -14,7 +14,7 @@ export default function CalorieTracker({activities}:CalorieTrackerProp) {
     const CalorieConsumo = useMemo(()=> activities.reduce((total, cat)=> cat.category === 1 ? total + cat.calories :total ,0  ) ,[activities])
     const CalorieGastadas = useMemo(()=> activities.reduce((total, cat)=> cat.category === 2 ? total + cat.calories :total ,0  ) ,[activities])
     
-    const Total = CalorieConsumo - CalorieGastadas
+    const Total = useMemo(()=> CalorieConsumo -CalorieGastadas ,[activities])
 
   return (
     < >
@@ -36,29 +36,6 @@ export default function CalorieTracker({activities}:CalorieTrackerProp) {
                   calories={Total}
                   text={'Balance'}
                 />
-
-                {/* <p className='text-white rounded-full font-bold gap-3 text-center text-2xl  grid grid-cols-1 '>
-                
-                   
-                   <span className=' font-black text-6xl text-orange'>{CalorieConsumo} </span>
-                   Consumidas
-                
-                </p>
-                <p className='text-white rounded-full font-bold gap-3 text-center text-2xl  grid grid-cols-1 '>
-                
-                   
-                <span className=' font-black text-6xl text-orange'>{CalorieGastadas} </span>
-                   Gastadas
-             
-                 </p> */}
-                 {/* <p className='text-white rounded-full font-bold gap-3 text-center text-2xl  grid grid-cols-1 '>
-                
-                   
-                <span className=' font-black text-6xl text-orange'>{Total} </span>
-                   Balance
-             
-                 </p>
-              */}
             </div>      
     </>
 )
