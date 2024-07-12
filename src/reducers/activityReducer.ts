@@ -1,18 +1,25 @@
+import ActivityList from "../components/ActivityList"
 import { Activity } from "../types"
 
 
 export type ActivityActions =
  { type: 'save-activity', payload:{newActivity:Activity}}|
  { type: 'set-activeId', payload:{id:Activity['id']}}|
- { type: 'set-delete', payload:{id:Activity['id']}}
+ { type: 'set-delete', payload:{id:Activity['id']}}|
+ { type: 'set-reload'}
 
 export type ActivityState= {
     activities: Activity[],
     idActivities: Activity['id']
 }
 
+const localStorageActivities  = (): Activity[] =>{
+  const activities = JSON.parse(localStorage.getItem('activities') || '[]')
+  return activities
+}
+
 export const initialState : ActivityState = {
-    activities: [],
+    activities: localStorageActivities(),
     idActivities: ''
 }
 export const activityReducer = (
@@ -55,6 +62,13 @@ export const activityReducer = (
         ...state,
         activities: state.activities.filter(activity=> activity.id !== action.payload.id)
     }
+   }
+
+   if(action.type === 'set-reload'){
+     return{
+      activities: [],
+      idActivities:''
+     }
    }
    return state
 }

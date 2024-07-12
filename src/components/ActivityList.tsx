@@ -28,12 +28,15 @@ export default function ActivityList({activities,dispatch}:ActivityProps) {
         cat.id === category ? cat.name : ' '
      )) 
     , [activities])
+
+    const actividadesVacias = useMemo(()=> activities.length === 0, [activities])
   
     return (
     <>
        <h2 className='text-center text-4xl font-bold text-slate-600 uppercase'> Comida y Actividades  </h2>
         
-        {activities.map(category=>(
+       { actividadesVacias ? <h3 className=' text-center my-5'>Todavia no hay comidas ni actividades</h3> : 
+        activities.map(category=>(
             <div
                 className='px-5 py-10 bg-white mt-5 flex justify-between shadow-lg' 
                 key={category.id}>
