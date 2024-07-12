@@ -64,7 +64,15 @@ const handleSubmit = (e :FormEvent<HTMLFormElement>)=>{
     id: uuidV4()
   })
 }
-
+const enActividades = ()=> {
+  const{category} = activity
+   
+  if(category === 2){
+    return "Ejercicio:"
+  }else{
+    return "Comida:"
+  }
+}
 
   return (
     <form
@@ -90,12 +98,12 @@ const handleSubmit = (e :FormEvent<HTMLFormElement>)=>{
     </div>
 
     <div className="grid grid-cols-1 gap-3">
-        <label htmlFor="name" className="font-bold">Actividad:</label>
+        <label htmlFor="name" className="font-bold">{enActividades()}</label>
         <input 
         type="text" 
         id="name" 
         className="border-slate-300 border p-2 rounded-lg" 
-        placeholder="Ej: Jugo de naranja, ejercicio, manzana, etc..."
+        placeholder={activity.category === 1? "Ej: Jugo de naranja, tostadas, manzana, etc..." : "Ej: Gimansio, correr, fubol, etc..."}
         value={activity.name}
         onChange={handleChange}
 
